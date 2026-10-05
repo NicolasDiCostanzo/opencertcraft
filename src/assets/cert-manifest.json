@@ -107,6 +107,25 @@
     "questionCount": 143
   },
   {
+    "file": "GCP-ACE questions.json",
+    "exam": {
+      "name": "Google Cloud Associate Cloud Engineer",
+      "code": "GCP-ACE",
+      "totalQuestions": 60,
+      "timeLimitMinutes": 120,
+      "passingScore": {
+        "passingScore": 70
+      },
+      "weights": {
+        "Setting up a cloud solution environment": 20,
+        "Planning and implementing a cloud solution": 30,
+        "Ensuring the successful operation of a cloud solution": 30,
+        "Configuring access and security": 20
+      }
+    },
+    "questionCount": 214
+  },
+  {
     "file": "CCDV-F questions.json",
     "exam": {
       "name": "Claude Certified Developer - Foundations",
