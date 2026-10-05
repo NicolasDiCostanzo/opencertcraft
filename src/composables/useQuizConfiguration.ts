@@ -52,6 +52,7 @@ export function useQuizConfiguration(
     Object.assign(excludeGroups, emptyGroupFilters(themes))
     selectedTopics.value = []
     count.value = cert.value?.exam.totalQuestions ?? 'all'
+    timerEnabled.value = false
     timerMinutes.value = cert.value?.exam.timeLimitMinutes ?? 1
   })
 

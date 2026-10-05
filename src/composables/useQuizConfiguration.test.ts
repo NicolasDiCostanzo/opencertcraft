@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { computed, defineComponent, nextTick } from 'vue'
+import { computed, defineComponent, nextTick, ref } from 'vue'
 import { router } from '../router'
 import { useQuizSessionStore } from '../stores/quizSession'
 import { useUserAccountStore } from '../stores/userAccount'
@@ -26,8 +26,10 @@ const wrongIds = Array.from({ length: 12 }, (_, index) => `sec-${index + 1}`)
 const flaggedIds = ['dep-1', 'dep-2', 'dep-3']
 
 let wrapper: ReturnType<typeof mount> | undefined
+const certCodeSource = ref(examCertBundle.exam.code)
 
 function setup() {
+  certCodeSource.value = examCertBundle.exam.code
   const pinia = createPinia()
   setActivePinia(pinia)
   useUserAccountStore().accountMode = 'local'
@@ -40,7 +42,7 @@ function setup() {
     defineComponent({
       setup() {
         config = useQuizConfiguration(
-          computed(() => examCertBundle.exam.code),
+          computed(() => certCodeSource.value),
           computed(() => examCertBundle),
           computed(() => examCertBundle.questions),
         )
@@ -123,6 +125,16 @@ describe('useQuizConfiguration timer', () => {
 
     expect(config.timerEnabled.value).toBe(false)
     expect(config.timerMinutes.value).toBe(examCertBundle.exam.timeLimitMinutes)
+  })
+
+  it('turns the timer off when the certification changes', async () => {
+    const config = setup()
+    config.timerEnabled.value = true
+
+    certCodeSource.value = 'OTHER-CERT'
+    await nextTick()
+
+    expect(config.timerEnabled.value).toBe(false)
   })
 
   it.each([

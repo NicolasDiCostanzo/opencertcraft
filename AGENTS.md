@@ -31,7 +31,9 @@ npm run test:watch   # vitest watch
 npm run test:certs   # cert-bundle gate: manifest + theme integrity (fast; run after any bundle edit)
 ```
 
-CI (`.github/workflows/ci.yml`, Node 22) runs **lint, typecheck, test, build, and `npm audit --audit-level=high`** on every PR — run `npm run lint && npm run typecheck && npm run test` locally before considering work done.
+CI (`.github/workflows/ci.yml`, Node 22) runs **lint, typecheck, test, build, and `npm audit --omit=dev --audit-level=high`** on every PR — run `npm run lint && npm run typecheck && npm run test` locally before considering work done.
+
+The audit job is scoped to runtime deps with `--omit=dev`. The only high advisory in the tree is `braces` (GHSA-vfj7-8cjw-p6xm), pulled in transitively by `@vue/eslint-config-typescript` → `fast-glob` → `micromatch`. It is used only for build-time glob matching inside the ESLint config, is unreachable from app code, and **has no patched release** (`braces@3.0.3` is the latest and is still within the vulnerable `<=3.0.3` range), so `npm audit fix` can only "resolve" it by downgrading to `@vue/eslint-config-typescript@14.0.1` — a version that breaks `eslint.config.js` and is incompatible with ESLint 10. Remove `--omit=dev` once a patched `braces` ships.
 
 ## Project layout
 
