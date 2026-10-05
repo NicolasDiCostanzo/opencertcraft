@@ -239,4 +239,27 @@ describe('QuizConfigureView', () => {
     expect(session.mode).toBe('exam')
     expect(session.deadlineAt! - session.startedAt).toBe(60 * 60_000)
   })
+
+  it('starts a preparation quiz without a deadline by default', async () => {
+    await wrapper.find('.btn--primary').trigger('click')
+
+    expect(useQuizSessionStore().currentSession?.deadlineAt).toBeUndefined()
+  })
+
+  it('starts a preparation quiz with the chosen timer', async () => {
+    await wrapper.find('.timer-picker input[type="checkbox"]').setValue(true)
+    const minutes = wrapper.find('.timer-input')
+    ;(minutes.element as HTMLInputElement).value = '5'
+    await minutes.trigger('change')
+    await wrapper.find('.btn--primary').trigger('click')
+
+    const session = useQuizSessionStore().currentSession!
+    expect(session.deadlineAt! - session.startedAt).toBe(5 * 60_000)
+  })
+
+  it('does not offer the timer in exam mode', async () => {
+    await wrapper.findAll('input[name="quiz-mode"]')[1].setValue(true)
+
+    expect(wrapper.find('.timer-picker').exists()).toBe(false)
+  })
 })

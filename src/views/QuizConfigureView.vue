@@ -7,6 +7,7 @@ import ChoiceGroup from '../components/filters/ChoiceGroup.vue'
 import CountPicker from '../components/filters/CountPicker.vue'
 import FilterOption from '../components/filters/FilterOption.vue'
 import PrimaryButton from '../components/ui/PrimaryButton.vue'
+import TimerPicker from '../components/filters/TimerPicker.vue'
 import ThemeFilter from '../components/filters/ThemeFilter.vue'
 import { useQuizConfiguration } from '../composables/useQuizConfiguration'
 import { useQuizLoader } from '../composables/useQuizLoader'
@@ -23,6 +24,8 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
   const {
     mode,
     replayMode,
+    timerEnabled,
+    timerMinutes,
     count,
     includeMatchMode,
     includeGroups,
@@ -90,7 +93,10 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
           <h3 class="col-heading">{{ texts.examSettingsLabel }}</h3>
           <ExamFacts :exam="cert.exam" />
         </Card>
-        <CountPicker v-else :max="matchingCount" v-model="count" />
+        <div v-else class="quick-col">
+          <CountPicker :max="matchingCount" v-model="count" />
+          <TimerPicker v-model:enabled="timerEnabled" v-model:minutes="timerMinutes" />
+        </div>
       </div>
     </Card>
 
@@ -203,6 +209,12 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
 
   details[open]>summary.section-title::before {
     content: '−';
+  }
+
+  .quick-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .exam-settings {

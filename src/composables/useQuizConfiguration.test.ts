@@ -116,3 +116,34 @@ describe('useQuizConfiguration in exam mode', () => {
     expect(config.replayMode.value).toBe(expected)
   })
 })
+
+describe('useQuizConfiguration timer', () => {
+  it('defaults the timer to off with the real exam duration as its length', () => {
+    const config = setup()
+
+    expect(config.timerEnabled.value).toBe(false)
+    expect(config.timerMinutes.value).toBe(examCertBundle.exam.timeLimitMinutes)
+  })
+
+  it.each([
+    { mode: 'preparation', timerEnabled: false, timerMinutes: 45, expectedMinutes: undefined },
+    { mode: 'preparation', timerEnabled: true, timerMinutes: 45, expectedMinutes: 45 },
+    { mode: 'preparation', timerEnabled: true, timerMinutes: 9999, expectedMinutes: 9999 },
+    { mode: 'exam', timerEnabled: false, timerMinutes: 5, expectedMinutes: examCertBundle.exam.timeLimitMinutes },
+    { mode: 'exam', timerEnabled: true, timerMinutes: 5, expectedMinutes: examCertBundle.exam.timeLimitMinutes },
+  ] as const)(
+    '$mode with timer enabled=$timerEnabled and $timerMinutes min gives a $expectedMinutes min deadline',
+    async ({ mode, timerEnabled, timerMinutes, expectedMinutes }) => {
+      const config = setup()
+      config.mode.value = mode
+      config.timerEnabled.value = timerEnabled
+      config.timerMinutes.value = timerMinutes
+
+      await config.startQuiz()
+
+      const session = useQuizSessionStore().currentSession!
+      const deadline = session.deadlineAt === undefined ? undefined : session.deadlineAt - session.startedAt
+      expect(deadline).toBe(expectedMinutes === undefined ? undefined : expectedMinutes * 60_000)
+    },
+  )
+})

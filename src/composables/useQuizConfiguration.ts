@@ -32,6 +32,8 @@ export function useQuizConfiguration(
 
   const mode = ref<QuizMode>('preparation')
   const replayMode = ref<ReplayMode>('all')
+  const timerEnabled = ref(false)
+  const timerMinutes = ref(cert.value?.exam.timeLimitMinutes ?? 1)
   const count = ref<number | 'all'>(cert.value?.exam.totalQuestions ?? 'all')
   const includeMatchMode = ref<ThemeMatchMode>('or')
   const includeGroups = reactive<Record<string, ThemeGroupFilter>>(
@@ -50,6 +52,7 @@ export function useQuizConfiguration(
     Object.assign(excludeGroups, emptyGroupFilters(themes))
     selectedTopics.value = []
     count.value = cert.value?.exam.totalQuestions ?? 'all'
+    timerMinutes.value = cert.value?.exam.timeLimitMinutes ?? 1
   })
 
   const availableTopics = computed(() => [...new Set(pool.value.map((question) => question.topic))])
@@ -125,7 +128,11 @@ export function useQuizConfiguration(
           replayMode: replayMode.value,
           count: count.value,
         }
-    const timeLimitMinutes = isExam ? exam?.timeLimitMinutes : undefined
+    const timeLimitMinutes = isExam
+      ? exam?.timeLimitMinutes
+      : timerEnabled.value
+        ? timerMinutes.value
+        : undefined
     quizSessionStore.startSession(certCode.value, config, questions, timeLimitMinutes, initialFlags)
     await router.push({ name: 'quiz-session', params: { certCode: certCode.value } })
   }
@@ -133,6 +140,8 @@ export function useQuizConfiguration(
   return {
     mode,
     replayMode,
+    timerEnabled,
+    timerMinutes,
     count,
     includeMatchMode,
     includeGroups,
