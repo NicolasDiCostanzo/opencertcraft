@@ -27,30 +27,36 @@ beforeEach(() => {
 })
 
 describe('quizSession store', () => {
-  it('starts a preparation session without a deadline', () => {
+  it('starts a session with its questions at the first index', () => {
     const store = useQuizSessionStore()
-    store.startSession('DVA-C02', config('preparation'), makeQuestions(), 130)
+    store.startSession('DVA-C02', config('preparation'), makeQuestions(), undefined)
 
     const session = store.currentSession
     expect(session?.mode).toBe('preparation')
-    expect(session?.deadlineAt).toBeUndefined()
     expect(session?.questions).toHaveLength(3)
     expect(session?.currentIndex).toBe(0)
     expect(session?.startedAt).toBeGreaterThan(0)
   })
 
-  it('starts an exam session with a deadline from the time limit', () => {
-    const store = useQuizSessionStore()
-    vi.useFakeTimers()
-    const startedAt = Date.now()
-    store.startSession('DVA-C02', config('exam'), makeQuestions(), 130)
-    vi.useRealTimers()
+  it.each([
+    { mode: 'preparation', timeLimitMinutes: undefined, expectedMinutes: undefined },
+    { mode: 'preparation', timeLimitMinutes: 45, expectedMinutes: 45 },
+    { mode: 'exam', timeLimitMinutes: 130, expectedMinutes: 130 },
+    { mode: 'exam', timeLimitMinutes: undefined, expectedMinutes: undefined },
+  ] as { mode: QuizConfig['mode']; timeLimitMinutes: number | undefined; expectedMinutes: number | undefined }[])(
+    'sets the deadline from the time limit alone ($mode, $timeLimitMinutes min)',
+    ({ mode, timeLimitMinutes, expectedMinutes }) => {
+      const store = useQuizSessionStore()
+      vi.useFakeTimers()
+      const startedAt = Date.now()
+      store.startSession('DVA-C02', config(mode), makeQuestions(), timeLimitMinutes)
+      vi.useRealTimers()
 
-    const session = store.currentSession!
-    expect(session.mode).toBe('exam')
-    expect(session.startedAt).toBe(startedAt)
-    expect(session.deadlineAt).toBe(startedAt + 130 * 60_000)
-  })
+      const session = store.currentSession!
+      expect(session.startedAt).toBe(startedAt)
+      expect(session.deadlineAt).toBe(expectedMinutes === undefined ? undefined : startedAt + expectedMinutes * 60_000)
+    },
+  )
 
   it('records a correct single answer and marks it', () => {
     const store = useQuizSessionStore()

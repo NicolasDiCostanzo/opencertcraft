@@ -51,8 +51,8 @@ Metadata about the certification itself. Displayed on the home screen and used f
 |---|---|---|---|
 | `name` | string | ✅ | Full display name. |
 | `code` | string | ✅ | Short unique code (`DVA-C02`, `SAA-C03`, `CKAD`). Used as the progress-storage key and file-name prefix. |
-| `totalQuestions` | number | ✅ | Question count on the **real** exam (not the bank size). Used by the exam-mode default preset. |
-| `timeLimitMinutes` | number | ✅ | Real exam duration. Used only by exam mode's countdown timer. |
+| `totalQuestions` | number | ✅ | Question count on the **real** exam (not the bank size). Exam mode always draws exactly this many questions, so the bank must hold at least this many answerable questions (`certManifest.test.ts`). Also the default question count in preparation mode. |
+| `timeLimitMinutes` | number | ✅ | Real exam duration. Exam mode's fixed countdown, and the default length of the optional timer in preparation mode. |
 | `passingScore.passingScore` | number | ✅ | Score needed to pass. A raw percentage (0–100) when `scale` is absent; a scaled score (e.g. out of 1000) when `scale` is present. |
 | `passingScore.scale` | number | optional | Max scale (e.g. `1000` for AWS scaled scores). Omit for percentage-based certs — `passingScore` is then itself the pass percentage. The pass percentage is always computed as `passingScore / scale`. |
 | `weights` | `Record<string, number>` | optional | Keys **must** be topic names used on questions; values are percentages summing to 100. Omit if the cert has no published domain weights — the app then samples uniformly. |

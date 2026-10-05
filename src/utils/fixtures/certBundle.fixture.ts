@@ -54,3 +54,25 @@ export const secondCertBundle: CertBundle = (() => {
 export function cloneBundle(bundle: CertBundle = validCertBundle): CertBundle {
   return JSON.parse(JSON.stringify(bundle)) as CertBundle
 }
+
+export const examCertBundle: CertBundle = (() => {
+  const bundle = cloneBundle(validCertBundle)
+  bundle.exam = {
+    ...bundle.exam,
+    code: 'EXAM-001',
+    totalQuestions: 10,
+    timeLimitMinutes: 30,
+    weights: { Security: 60, Deployment: 40 },
+  }
+  const build = (topic: string, prefix: string, tag: string) =>
+    Array.from({ length: 20 }, (_, index) => ({
+      id: `${prefix}-${index + 1}`,
+      question: `${topic} question ${index + 1}?`,
+      options: ['Option A', 'Option B'],
+      answers: 'A',
+      topic,
+      themes: { services: [tag] },
+    }))
+  bundle.questions = [...build('Security', 'sec', 'lambda'), ...build('Deployment', 'dep', 's3')]
+  return bundle
+})()

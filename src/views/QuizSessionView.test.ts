@@ -59,17 +59,18 @@ describe('QuizSessionView', () => {
     expect(wrapper.find('.session').exists()).toBe(false)
   })
 
-  it('hides the timer in preparation mode', () => {
-    store.startSession('TEST', { certCode: 'TEST', mode: 'preparation', includeMatchMode: 'or', replayMode: 'all', count: 'all' }, questions, undefined)
-    const wrapper = mount(QuizSessionView, { global: { plugins: [pinia, router] } })
-    expect(wrapper.findComponent({ name: 'TimerBar' }).exists()).toBe(false)
-  })
-
-  it('shows the timer in exam mode', () => {
-    store.startSession('TEST', { certCode: 'TEST', mode: 'exam', includeMatchMode: 'or', replayMode: 'all', count: 'all' }, questions, 130)
-    const wrapper = mount(QuizSessionView, { global: { plugins: [pinia, router] } })
-    expect(wrapper.findComponent({ name: 'TimerBar' }).exists()).toBe(true)
-  })
+  it.each([
+    { mode: 'preparation', timeLimitMinutes: undefined, timerShown: false },
+    { mode: 'preparation', timeLimitMinutes: 45, timerShown: true },
+    { mode: 'exam', timeLimitMinutes: 130, timerShown: true },
+  ] as { mode: 'preparation' | 'exam'; timeLimitMinutes: number | undefined; timerShown: boolean }[])(
+    'shows the timer only when the session has a time limit ($mode, $timeLimitMinutes min)',
+    ({ mode, timeLimitMinutes, timerShown }) => {
+      store.startSession('TEST', { certCode: 'TEST', mode, includeMatchMode: 'or', replayMode: 'all', count: 'all' }, questions, timeLimitMinutes)
+      const wrapper = mount(QuizSessionView, { global: { plugins: [pinia, router] } })
+      expect(wrapper.findComponent({ name: 'TimerBar' }).exists()).toBe(timerShown)
+    },
+  )
 
   it('disables the previous button on the first question', () => {
     store.startSession('TEST', { certCode: 'TEST', mode: 'preparation', includeMatchMode: 'or', replayMode: 'all', count: 'all' }, questions, undefined)

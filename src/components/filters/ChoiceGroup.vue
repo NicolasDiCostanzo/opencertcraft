@@ -5,7 +5,7 @@ import FilterOption from './FilterOption.vue';
 defineProps<{
   name: string
   label: string
-  options: { value: T; label: string; description?: string }[]
+  options: { value: T; label: string; description?: string; disabled?: boolean }[]
   modelValue: T
 }>()
 
@@ -20,6 +20,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: T] }>()
         type="radio"
         :name="name"
         :checked="modelValue === option.value"
+        :disabled="option.disabled"
         @change="emit('update:modelValue', option.value)"
         />
       </FilterOption>

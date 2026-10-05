@@ -38,4 +38,19 @@ describe('ChoiceGroup', () => {
 
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
+
+  it('disables the radio of a disabled option', () => {
+    const wrapper = mount(ChoiceGroup, {
+      props: {
+        name: 'test-group',
+        label: texts.modeLabel,
+        options: [options[0], { ...options[1], disabled: true }],
+        modelValue: 'a' as const,
+      },
+    })
+    const radios = wrapper.findAll('input[type="radio"]')
+
+    expect(radios[0].attributes('disabled')).toBeUndefined()
+    expect(radios[1].attributes('disabled')).toBeDefined()
+  })
 })

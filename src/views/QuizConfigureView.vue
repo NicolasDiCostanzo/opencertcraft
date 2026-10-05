@@ -2,10 +2,12 @@
   import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Card from '../components/ui/BaseCard.vue'
+import ExamFacts from '../components/cert/ExamFacts.vue'
 import ChoiceGroup from '../components/filters/ChoiceGroup.vue'
 import CountPicker from '../components/filters/CountPicker.vue'
 import FilterOption from '../components/filters/FilterOption.vue'
 import PrimaryButton from '../components/ui/PrimaryButton.vue'
+import TimerPicker from '../components/filters/TimerPicker.vue'
 import ThemeFilter from '../components/filters/ThemeFilter.vue'
 import { useQuizConfiguration } from '../composables/useQuizConfiguration'
 import { useQuizLoader } from '../composables/useQuizLoader'
@@ -22,6 +24,8 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
   const {
     mode,
     replayMode,
+    timerEnabled,
+    timerMinutes,
     count,
     includeMatchMode,
     includeGroups,
@@ -30,6 +34,9 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
     availableTopics,
     selectedGroupCount,
     matchingCount,
+    examReplayCounts,
+    examReplayAvailability,
+    canStart,
     startQuiz,
   } = useQuizConfiguration(certCode, cert, pool)
 
@@ -38,12 +45,34 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
     { value: 'exam', label: texts.modeExam, description: texts.modeExamDescription },
   ]
 
-  const replayOptions: { value: ReplayMode; label: string }[] = [
+  const isExam = computed(() => mode.value === 'exam')
+
+  const footerMessage = computed(() => {
+    if (isExam.value) {
+      return canStart.value
+        ? texts.examReadyValue(cert.value?.exam.totalQuestions ?? 0)
+        : texts.examPoolTooSmallWarning
+    }
+    return matchingCount.value === 0 ? texts.noMatchWarning : texts.matchingCountValue(matchingCount.value)
+  })
+
+  const replayChoices: { value: ReplayMode; label: string }[] = [
     { value: 'all', label: texts.replayAll },
     { value: 'wrong', label: texts.replayWrong },
     { value: 'flagged', label: texts.replayFlagged },
     { value: 'unattempted', label: texts.replayUnattempted },
   ]
+
+  const replayOptions = computed(() =>
+    replayChoices.map((choice) => {
+      if (!isExam.value || examReplayAvailability.value[choice.value]) return choice
+      return {
+        ...choice,
+        disabled: true,
+        description: texts.examReplayUnavailable(cert.value?.exam.totalQuestions ?? 0, examReplayCounts.value[choice.value]),
+      }
+    }),
+  )
 
   const matchGroupsOptions: { value: ThemeMatchMode; label: string }[] = [
     { value: 'and', label: texts.matchAllGroups },
@@ -60,11 +89,18 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
       <div class="quick-grid">
         <ChoiceGroup name="quiz-mode" :label="texts.modeLabel" :options="modeOptions" v-model="mode" />
         <ChoiceGroup name="replay-mode" :label="texts.replayLabel" :options="replayOptions" v-model="replayMode" />
-        <CountPicker :max="matchingCount" v-model="count" />
+        <Card v-if="isExam" tag="section" padding="md" radius="xl" bg="none" class="exam-settings">
+          <h3 class="col-heading">{{ texts.examSettingsLabel }}</h3>
+          <ExamFacts :exam="cert.exam" />
+        </Card>
+        <div v-else class="quick-col">
+          <CountPicker :max="matchingCount" v-model="count" />
+          <TimerPicker v-model:enabled="timerEnabled" v-model:minutes="timerMinutes" />
+        </div>
       </div>
     </Card>
 
-    <Card tag="details" padding="xl" radius="3xl" shadow border-top class="config-card filters-card">
+    <Card v-if="!isExam" tag="details" padding="xl" radius="3xl" shadow border-top class="config-card filters-card">
       <summary class="section-title">{{ texts.filterQuestionsLabel }}</summary>
       <div class="advanced-grid">
         <div class="filter-col topics-section">
@@ -104,10 +140,10 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
     </Card>
 
     <footer class="config-footer">
-      <p class="match-preview" :class="{ warning: matchingCount === 0 }">
-        {{ matchingCount === 0 ? texts.noMatchWarning : texts.matchingCountValue(matchingCount) }}
+      <p class="match-preview" :class="{ warning: !canStart }">
+        {{ footerMessage }}
       </p>
-      <PrimaryButton pill ghost size="lg" :disabled="matchingCount === 0" @click="startQuiz">{{ texts.startQuizCta }}</PrimaryButton>
+      <PrimaryButton pill ghost size="lg" :disabled="!canStart" @click="startQuiz">{{ texts.startQuizCta }}</PrimaryButton>
     </footer>
   </section>
 </template>
@@ -173,6 +209,18 @@ import type { QuizMode, ReplayMode, ThemeMatchMode } from '../types'
 
   details[open]>summary.section-title::before {
     content: '−';
+  }
+
+  .quick-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .exam-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .col-heading {

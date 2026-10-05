@@ -105,7 +105,7 @@ function handleTimeUp() {
         <span class="progress-text">{{ texts.questionOf(index, total) }}</span>
         <span v-if="isFlagged" class="flagged-badge"><Badge variant="flag">{{ texts.flagged }}</Badge></span>
       </div>
-      <TimerBar v-if="isExam && session.deadlineAt" :deadline-at="session.deadlineAt" @time-up="handleTimeUp" />
+      <TimerBar v-if="session.deadlineAt" :deadline-at="session.deadlineAt" @time-up="handleTimeUp" />
     </div>
 
     <QuestionCard

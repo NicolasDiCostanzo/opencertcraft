@@ -31,7 +31,7 @@ export const useQuizSessionStore = defineStore('quizSession', {
         answers: {},
         flags: [...initialFlags],
         startedAt,
-        deadlineAt: config.mode === 'exam' && timeLimitMinutes ? startedAt + timeLimitMinutes * 60_000 : undefined,
+        deadlineAt: timeLimitMinutes ?startedAt + timeLimitMinutes * 60_000 : undefined,
         finished: false,
       }
     },

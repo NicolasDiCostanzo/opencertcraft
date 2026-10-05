@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import certManifest from './cert-manifest.json'
-import { validateCertBundle } from '../utils/schemaValidator'
+import type { CertBundle } from '../types'
+import { isQuestionAnswerable, validateCertBundle } from '../utils/schemaValidator'
 
 const modules = import.meta.glob<{ default: unknown }>('./*questions.json', { eager: true })
 
@@ -21,4 +22,16 @@ describe('cert manifest', () => {
       expect(bundle.questions).toHaveLength(entry.questionCount)
     }
   })
+
+  it.each(certManifest.map((entry) => [entry.exam.code, entry.file] as const))(
+    '%s has at least exam.totalQuestions answerable questions',
+    (code, file) => {
+      const bundle = modules[`./${file}`]?.default as CertBundle
+      const answerable = bundle.questions.filter(isQuestionAnswerable).length
+      expect(
+        answerable,
+        `${code} has ${answerable} answerable questions but its real exam has ${bundle.exam.totalQuestions}: exam mode cannot build a full exam. Add questions or author the missing options.`,
+      ).toBeGreaterThanOrEqual(bundle.exam.totalQuestions)
+    },
+  )
 })

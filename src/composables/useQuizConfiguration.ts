@@ -32,6 +32,8 @@ export function useQuizConfiguration(
 
   const mode = ref<QuizMode>('preparation')
   const replayMode = ref<ReplayMode>('all')
+  const timerEnabled = ref(false)
+  const timerMinutes = ref(cert.value?.exam.timeLimitMinutes ?? 1)
   const count = ref<number | 'all'>(cert.value?.exam.totalQuestions ?? 'all')
   const includeMatchMode = ref<ThemeMatchMode>('or')
   const includeGroups = reactive<Record<string, ThemeGroupFilter>>(
@@ -50,6 +52,8 @@ export function useQuizConfiguration(
     Object.assign(excludeGroups, emptyGroupFilters(themes))
     selectedTopics.value = []
     count.value = cert.value?.exam.totalQuestions ?? 'all'
+    timerEnabled.value = false
+    timerMinutes.value = cert.value?.exam.timeLimitMinutes ?? 1
   })
 
   const availableTopics = computed(() => [...new Set(pool.value.map((question) => question.topic))])
@@ -71,28 +75,74 @@ export function useQuizConfiguration(
 
   const matchingCount = computed(() => filteredPool.value.length)
 
+  const replayModes: ReplayMode[] = ['all', 'wrong', 'flagged', 'unattempted']
+
+  function replayPool(replay: ReplayMode): Question[] {
+    return filterByReplay(pool.value, replay, progressStore.byExamCode[certCode.value] ?? {})
+  }
+
+  const examReplayCounts = computed(
+    () => Object.fromEntries(replayModes.map((replay) => [replay, replayPool(replay).length])) as Record<ReplayMode, number>,
+  )
+
+  const examReplayAvailability = computed(() => {
+    const required = cert.value?.exam.totalQuestions ?? 0
+    return Object.fromEntries(
+      replayModes.map((replay) => [replay, examReplayCounts.value[replay] >= required]),
+    ) as Record<ReplayMode, boolean>
+  })
+
+  watch([mode, examReplayAvailability], () => {
+    if (mode.value === 'exam' && !examReplayAvailability.value[replayMode.value]) {
+      replayMode.value = 'all'
+    }
+  })
+
+  const canStart = computed(() =>
+    mode.value === 'exam' ? examReplayAvailability.value[replayMode.value] : matchingCount.value > 0,
+  )
+
   async function startQuiz() {
-    const questions = sampleQuestions(filteredPool.value, count.value, cert.value?.exam.weights)
+    const isExam = mode.value === 'exam'
+    const exam = cert.value?.exam
+    const questions = isExam
+      ? sampleQuestions(replayPool(replayMode.value), exam?.totalQuestions ?? 'all', exam?.weights)
+      : sampleQuestions(filteredPool.value, count.value, exam?.weights)
     const initialFlags = questions
       .filter((q) => progressStore.isFlagged(certCode.value, q.id))
       .map((q) => q.id)
-    const config: QuizConfig = {
-      certCode: certCode.value,
-      mode: mode.value,
-      includeThemes: includeGroups,
-      includeMatchMode: includeMatchMode.value,
-      excludeThemes: excludeGroups,
-      topics: selectedTopics.value,
-      replayMode: replayMode.value,
-      count: count.value,
-    }
-    quizSessionStore.startSession(certCode.value, config, questions, cert.value?.exam.timeLimitMinutes, initialFlags)
+    const config: QuizConfig = isExam
+      ? {
+          certCode: certCode.value,
+          mode: mode.value,
+          includeMatchMode: 'or',
+          replayMode: replayMode.value,
+          count: exam?.totalQuestions ?? 'all',
+        }
+      : {
+          certCode: certCode.value,
+          mode: mode.value,
+          includeThemes: includeGroups,
+          includeMatchMode: includeMatchMode.value,
+          excludeThemes: excludeGroups,
+          topics: selectedTopics.value,
+          replayMode: replayMode.value,
+          count: count.value,
+        }
+    const timeLimitMinutes = isExam
+      ? exam?.timeLimitMinutes
+      : timerEnabled.value
+        ? timerMinutes.value
+        : undefined
+    quizSessionStore.startSession(certCode.value, config, questions, timeLimitMinutes, initialFlags)
     await router.push({ name: 'quiz-session', params: { certCode: certCode.value } })
   }
 
   return {
     mode,
     replayMode,
+    timerEnabled,
+    timerMinutes,
     count,
     includeMatchMode,
     includeGroups,
@@ -101,6 +151,9 @@ export function useQuizConfiguration(
     availableTopics,
     selectedGroupCount,
     matchingCount,
+    examReplayCounts,
+    examReplayAvailability,
+    canStart,
     startQuiz,
   }
 }

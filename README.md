@@ -27,7 +27,7 @@ Because the generated parts can be wrong, **if you spot a bad explanation, a mis
 
 ## Features
 
-- **Two quiz modes** — **Preparation** (no timer, immediate feedback, ideal for drilling weak areas) and **Exam** (timed, deferred feedback, using the real exam's question count and duration).
+- **Two quiz modes** — **Preparation** (immediate feedback, filters, and an optional timer of your chosen length, ideal for drilling weak areas) and **Exam** (fixed to the real exam's question count, duration and topic weighting, deferred feedback).
 - **Replay modes** — practice only what you got wrong, only flagged questions, only unattempted ones, or sample proportionally to the real exam's published domain weights. Questions are always shuffled.
 - **Theme filters** — include/exclude by topic, service, concept, or question type, with AND/OR composition per group.
 - **Per-question progress** — the app tracks how you've done on *each individual question*, so "drill the exact topics I keep failing" is a first-class action rather than something you assemble by hand.
