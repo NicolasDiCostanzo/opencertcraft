@@ -100,7 +100,7 @@ The bundle file:
 |---|---|---|---|
 | `name` | string | yes | Full display name of the certification. |
 | `code` | string | yes | Short unique code (e.g. `DVA-C02`, `SAA-C03`). Ask the user if unclear. |
-| `totalQuestions` | number | yes | Question count on the **real** exam — not the size of the question bank you're converting. Ask the user; don't infer this from the dump's question count. |
+| `totalQuestions` | number | yes | Question count on the **real** exam — not the size of the question bank you're converting. Ask the user; don't infer this from the dump's question count. The bank must hold **at least** this many answerable questions: exam mode always draws exactly this many, and `certManifest.test.ts` fails otherwise. |
 | `timeLimitMinutes` | number | yes | Real exam duration in minutes. Ask the user if not stated anywhere in the source material. |
 | `passingScore.passingScore` | number | yes | The passing score. A plain percentage (0-100) if the cert has no scaled score, or a scaled value (e.g. `720`) if it does. |
 | `passingScore.scale` | number | no | Max of the scale (e.g. `1000`). Omit entirely for percentage-based certs. **Setting this changes the UI**: the app then shows a *projected* scaled score (a linear projection, e.g. 75% → "750 / 1000") with a disclaimer that it does not reproduce the real exam's scoring. Omitting it means `passingScore` is read as a plain percentage. Only set it when the certification genuinely uses a scaled score — never to "normalize" a number. |
@@ -330,7 +330,7 @@ skipped it.
 |---|---|
 | `file` | The bundle's file name including the `.json` extension and the space: `"<CODE> questions.json"`. A mismatch throws at registry build time. |
 | `exam` | Copy the bundle's `exam` object **verbatim**. `certManifest.test.ts` asserts `bundle.exam` deep-equals `entry.exam`, so a single drifting field — a changed `passingScore`, a dropped `instructions` — fails the test suite. |
-| `questionCount` | `questions.length` in the bundle. Asserted with `toHaveLength`, so an off-by-one after deleting a question fails CI. |
+| `questionCount` | `questions.length` in the bundle. Asserted with `toHaveLength`, so an off-by-one after deleting a question fails CI. It must also be at least `exam.totalQuestions` (answerable questions only). |
 
 `src/assets/certManifest.test.ts` enforces all three, plus the reverse
 direction: every `*questions.json` file on disk must have exactly one entry, and
@@ -388,9 +388,9 @@ the cert if skipped**:
 
 - [ ] An entry was added for this cert, with `file` matching the bundle's name exactly.
 - [ ] `exam` is copied verbatim from the bundle (deep-equal, not a retyped approximation).
-- [ ] `questionCount` equals `questions.length` in the bundle.
+- [ ] `questionCount` equals `questions.length` in the bundle, and the bundle holds at least `exam.totalQuestions` answerable questions.
 - [ ] `npm run test:certs` is green. It is the authority on validity: it fails on
       a malformed bundle, a missing/mismatched manifest entry, a `questionCount`
-      that disagrees with the file, a tag a question uses but the registry does
+      that disagrees with the file, a bank smaller than the real exam, a tag a question uses but the registry does
       not declare, a declared value no question uses, an untagged question, and
       sibling certs whose theme groups are named differently.
