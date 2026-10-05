@@ -2,11 +2,10 @@
 import { RouterLink } from 'vue-router'
 import { texts } from '../../texts/en'
 import type { CertBundleMeta } from '../../types'
-import { formatPassingScore } from '../../utils/examDisplay'
 import Card from '../ui/BaseCard.vue'
 import CertCodeBadge from './CertCodeBadge.vue'
 import CertFact from './CertFact.vue'
-import WeightPill from './WeightPill.vue'
+import ExamFacts from './ExamFacts.vue'
 
 defineProps<{ cert: CertBundleMeta }>()
 </script>
@@ -23,15 +22,9 @@ defineProps<{ cert: CertBundleMeta }>()
   >
     <h2>{{ cert.exam.name }}</h2>
     <CertCodeBadge :code="cert.exam.code" />
-    <dl class="cert-facts">
+    <ExamFacts :exam="cert.exam">
       <CertFact :label="texts.questionBankLabel" :value="String(cert.questionCount)" />
-      <CertFact :label="texts.realExamLabel" :value="texts.realExamValue(cert.exam.totalQuestions)" />
-      <CertFact :label="texts.timeLimitLabel" :value="texts.timeLimitValue(cert.exam.timeLimitMinutes)" />
-      <CertFact :label="texts.passingScoreLabel" :value="formatPassingScore(cert.exam.passingScore)" />
-    </dl>
-    <ul v-if="cert.exam.weights" class="cert-weights">
-      <WeightPill v-for="(weight, topic) in cert.exam.weights" :key="topic" :topic="topic" :weight="weight" />
-    </ul>
+    </ExamFacts>
     <p v-if="cert.exam.instructions" class="cert-instructions">{{ cert.exam.instructions }}</p>
     <p class="cert-cta">{{ texts.viewDashboardCta }}</p>
   </Card>
@@ -43,22 +36,6 @@ defineProps<{ cert: CertBundleMeta }>()
   flex-direction: column;
   gap: 12px;
   text-decoration: none;
-}
-
-.cert-facts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 10px 16px;
-  margin: 0;
-}
-
-.cert-weights {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
 .cert-instructions {

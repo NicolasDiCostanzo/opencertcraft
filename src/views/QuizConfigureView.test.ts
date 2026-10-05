@@ -221,4 +221,22 @@ describe('QuizConfigureView', () => {
 
     expect(quizSessionStore.currentSession?.flags).toContain('q1')
   })
+
+  it('offers only the replay modes that can fill the exam when Exam is selected', async () => {
+    await wrapper.findAll('input[name="quiz-mode"]')[1].setValue(true)
+
+    const enabled = wrapper
+      .findAll('input[name="replay-mode"]')
+      .map((radio) => radio.attributes('disabled') === undefined)
+    expect(enabled).toEqual([true, false, false, true])
+  })
+
+  it('starts the exam with the real time limit', async () => {
+    await wrapper.findAll('input[name="quiz-mode"]')[1].setValue(true)
+    await wrapper.find('.btn--primary').trigger('click')
+
+    const session = useQuizSessionStore().currentSession!
+    expect(session.mode).toBe('exam')
+    expect(session.deadlineAt! - session.startedAt).toBe(60 * 60_000)
+  })
 })

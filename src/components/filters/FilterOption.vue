@@ -7,7 +7,7 @@ defineProps<{ text: string; description?: string }>()
     <slot />
     <span class="text-wrapper">
       <span>{{ text }}</span>
-      <span class="description">{{ description }}</span>
+      <span v-if="description" class="description">{{ description }}</span>
     </span>
     </label>
 </template>
@@ -22,15 +22,21 @@ defineProps<{ text: string; description?: string }>()
   margin-bottom: 8px;
 }
 
-.text-wrapper{
+.filter-option:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.text-wrapper {
   display: flex;
-  gap: 12px;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
 .description {
   font-size: 0.8rem;
-  line-height: 0.8rem;
+  line-height: 1.1;
   color: var(--text-secondary);
   font-style: italic;
 }
