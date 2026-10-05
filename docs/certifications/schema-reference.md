@@ -118,7 +118,7 @@ A dictionary mapping **theme groups** to their possible **values**. Each key is 
 |---|---|---|---|
 | `id` | string | ✅ | Unique within the file. Stable across re-generations. |
 | `question` | string | ✅ | Full prompt. Unicode preserved. |
-| `options` | string[] | ✅ | 2–5 entries. No `A. ` prefixes — the app renders letters. Inline images inside an option are markdown (`![...](...)`). |
+| `options` | string[] | ✅ | At least 2 entries. No `A. ` prefixes — the app renders letters. Inline images inside an option are markdown (`![...](...)`). |
 | `answers` | string \| string[] | ✅ | Single letter (`"C"`) for single-select; array (`["B","D"]`) for multi-select. Every letter must be within the `options` range. |
 | `topic` | string | ✅ | **Exactly one** topic name — see the rule below. Never an array, and never several topics joined by commas or slashes. If `exam.weights` exists, must be exactly one of its keys. |
 | `explanation` | string | optional | Rationale for the correct answer. Shown as immediate feedback in preparation mode and on the end-of-quiz review screen in both modes. |
