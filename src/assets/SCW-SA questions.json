@@ -1,12 +1,22 @@
 {
   "version": 2,
   "exam": {
-    "name": "Scaleway Solution Architect Professional",
+    "name": "Scaleway Professional: Solution Architect",
     "code": "SCW-SA",
     "totalQuestions": 60,
     "timeLimitMinutes": 60,
     "passingScore": {
       "passingScore": 70
+    },
+    "weights": {
+      "Core Ecosystem Knowledge": 12.5,
+      "Modern Deployment & Cloud native approach": 12.5,
+      "Resilience & Availability": 12.5,
+      "Scalability & elasticity": 12.5,
+      "Security architecture": 12.5,
+      "Sovereignty architecture": 12.5,
+      "Standard architecture patterns": 12.5,
+      "Sustainability architecture": 12.5
     }
   },
   "themes": {
@@ -32,7 +42,6 @@
       "managed-database-mongodb",
       "managed-database-postgresql",
       "managed-database-redis",
-      "managed-inference",
       "object-storage",
       "on-demand-clusters",
       "private-network",
@@ -46,7 +55,8 @@
       "serverless-functions",
       "serverless-jobs",
       "site-to-site-vpn",
-      "terraform"
+      "terraform",
+      "vpc"
     ],
     "concepts": [
       "automation",
@@ -70,6 +80,7 @@
       "microservices",
       "migration",
       "monolithic-architecture",
+      "observability",
       "private-networking",
       "rag",
       "right-sizing",
@@ -104,7 +115,7 @@
         "A",
         "B"
       ],
-      "topic": "Data, Databases & AI",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "managed-database-mongodb",
@@ -130,7 +141,7 @@
         "They must use a private network."
       ],
       "answers": "C",
-      "topic": "Compute & Containers",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "cpu-architecture"
@@ -142,7 +153,7 @@
     },
     {
       "id": "3",
-      "question": "You are building a multi-region, mission-critical financial platform requiring:\n• **Strong consistency** across all writes globally\n• **<5 minutes RTO** (automated failover)\n• **Low latency** for end-users worldwide\n• **Regional deployments using:**\n  ◦ **Spilo PostgreSQL** clusters\n  ◦ **Kafka/NATS** for async events\n  ◦ **GeoDNS** for frontend routing\n  ◦ **Async cross-region DB replication**\n\nWhich architectural adjustment best ensures:\n1. **Strong global consistency**\n2. **Minimal data loss during failover**\n3. **Automated, deterministic leader promotion**",
+      "question": "You are building a multi-region, mission-critical financial platform that requires strong consistency across all writes globally, an RTO under 5 minutes with automated failover, and low latency for end users worldwide. The regional deployments use Spilo PostgreSQL clusters, Kafka/NATS for async events, GeoDNS for frontend routing and asynchronous cross-region database replication. Which architectural adjustment best ensures strong global consistency, minimal data loss during failover, and automated, deterministic leader promotion?",
       "options": [
         "Use active-active regional writes with conflict-free replicated data types (CRDTs) for resolution.",
         "Use Spilo's synchronous streaming replication across regions with fencing and quorum-based failover logic.",
@@ -150,7 +161,7 @@
         "Implement global leader election using a Paxos/Raft cluster (e.g., Consul) to enforce a single write node."
       ],
       "answers": "B",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery",
@@ -175,7 +186,7 @@
         "D",
         "E"
       ],
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery",
@@ -199,7 +210,7 @@
         "B",
         "D"
       ],
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "direct-link",
@@ -228,7 +239,7 @@
         "B",
         "D"
       ],
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "cli",
@@ -256,7 +267,7 @@
         "A",
         "C"
       ],
-      "topic": "Compute & Containers",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "elastic-metal"
@@ -271,7 +282,7 @@
     },
     {
       "id": "8",
-      "question": "You work for a consulting company and your customer asks you to verify if encryption in transit is done on the following location of his architecture:\n• When we download an object from Object Storage\n• When we query a data from a Managed Database for PostgreSQL and MySQL\n• When we request a page from a Load balancer\n• When the load balancer distribute a request to the web servers\n\nWhat parameters do you check?",
+      "question": "You work for a consulting company and your customer asks you to verify if encryption in transit is done on the following location of his architecture:\n• When we download an object from Object Storage\n• When we query a data from a Managed Database for PostgreSQL and MySQL\n• When we request a page from a Load balancer\n• When the load balancer distribute a request to the web servers\n\nWhat parameters do you check? (Choose two)",
       "options": [
         "The \"SSL/TLS\" option of your Object Storage bucket is activated",
         "The \"SSL/TLS\" option of your Managed Database is activated",
@@ -279,8 +290,11 @@
         "Edge service is activated on your Object Storage bucket",
         "The Load Balancer configuration for SSL passthrough"
       ],
-      "answers": "B",
-      "topic": "Security & Compliance",
+      "answers": [
+        "C",
+        "E"
+      ],
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "load-balancer",
@@ -293,7 +307,8 @@
         "questionTypes": [
           "configuration"
         ]
-      }
+      },
+      "explanation": "Object Storage is reached through HTTPS endpoints and Managed Databases generate their TLS certificate automatically, so neither has an SSL/TLS option to activate. Encryption between the Load Balancer and the web servers depends on its TLS mode: SSL bridging re-encrypts the traffic towards the backend, and SSL passthrough forwards it still encrypted."
     },
     {
       "id": "9",
@@ -308,7 +323,7 @@
         "B",
         "C"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "concepts": [
           "encryption",
@@ -329,7 +344,7 @@
         "Auto Scaling Group"
       ],
       "answers": "A",
-      "topic": "Networking",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "load-balancer"
@@ -356,7 +371,7 @@
         "A",
         "B"
       ],
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "fault-tolerance"
@@ -382,7 +397,7 @@
         "D",
         "F"
       ],
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "interlink",
@@ -406,7 +421,7 @@
         "The continuous health checks performed on infrastructure."
       ],
       "answers": "C",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery"
@@ -426,7 +441,7 @@
         "Creating the version-controlled artifacts for the production environment."
       ],
       "answers": "C",
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "configuration-management"
@@ -452,7 +467,7 @@
         "C",
         "D"
       ],
-      "topic": "Cost & FinOps",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "cost-optimization",
@@ -465,7 +480,7 @@
     },
     {
       "id": "16",
-      "question": "A company has been doing image recognition software for the defense industry since 1982.\nLast year they were acquired by a social media company, and they stopped doing software for the defense industry.\nNow they do TikTok and Instagram image filters. End users can add cat ears on their pictures, and swap their face with their dog or with celebrities.\n\nThey still use HSM hardware appliances from Thales to store keys. It's quite expensive, complicated and they do not need such a security level anymore.\n\nThey are looking for a simple way to store encryption keys and perform encryption/unencryption operations.\n\nWhat is the simplest solution?",
+      "question": "A company has been doing image recognition software for the defense industry since 1982. Last year they were acquired by a social media company, and they stopped doing software for the defense industry. Now they do TikTok and Instagram image filters. End users can add cat ears on their pictures, and swap their face with their dog or with celebrities. They still use HSM hardware appliances from Thales to store keys. It's quite expensive, complicated and they do not need such a security level anymore. They are looking for a simple way to store encryption keys and perform encryption/unencryption operations. What is the simplest solution?",
       "options": [
         "Use Ansible Vault on an Elastic Metal server",
         "Use Key Manager",
@@ -473,7 +488,7 @@
         "Use Hashicorp Vault on an Instance"
       ],
       "answers": "B",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "key-manager",
@@ -490,7 +505,7 @@
     },
     {
       "id": "17",
-      "question": "Which network architecture should you deploy to secure this Fintech?\nA Fintech startup is deploying a critical payment processing application on Scaleway Kapsule. For strict compliance reasons (PCI-DSS), the cluster's worker nodes are placed in a Private Network (VPC) and must not have any Public IP addresses.\nHowever, these nodes must be able to initiate outbound connections to the Internet to download security updates and Docker images from an external registry. No inbound connections from the Internet should be allowed.",
+      "question": "A Fintech startup is deploying a critical payment processing application on Scaleway Kapsule. For strict compliance reasons (PCI-DSS), the cluster's worker nodes are placed in a Private Network (VPC) and must not have any Public IP addresses. However, these nodes must be able to initiate outbound connections to the Internet to download security updates and Docker images from an external registry. No inbound connections from the Internet should be allowed. Which network architecture should you deploy to secure this Fintech?",
       "options": [
         "Configure an SSH Bastion instance in the public subnet and route HTTP traffic through an SSH tunnel.",
         "Deploy a Public Gateway attached to the Private Network and enable NAT (Network Address Translation).",
@@ -498,7 +513,7 @@
         "Use a Public Load Balancer in \"TCP Passthrough\" mode to route the nodes' outbound traffic."
       ],
       "answers": "B",
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "instances",
@@ -517,15 +532,15 @@
     },
     {
       "id": "18",
-      "question": "A developer needs to run a database migration script on Scaleway's serverless platform that requires 8GB of RAM and might take up to several hours to complete.\n\nWhich of the following is the most accurate assessment?",
+      "question": "A developer needs to run a database migration script on Scaleway's serverless platform that requires 8GB of RAM and might take up to several hours to complete. Which of the following is the most accurate assessment?",
       "options": [
         "Serverless Functions with extended timeouts (up to 4GB memory).",
         "Serverless Containers (up to 12GB memory).",
         "None of Scaleway's serverless offerings would work.",
-        "Serverless Jobs — memory configurations up to 12GB, runtime up to 24 hours."
+        "Serverless Jobs: memory configurations up to 16GB, runtime up to 24 hours."
       ],
       "answers": "D",
-      "topic": "Compute & Containers",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "serverless-containers",
@@ -553,7 +568,7 @@
         "C",
         "D"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "load-balancer"
@@ -579,7 +594,7 @@
         "A",
         "C"
       ],
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "load-balancer"
@@ -606,7 +621,7 @@
         "B",
         "C"
       ],
-      "topic": "Cloud Fundamentals",
+      "topic": "Sustainability architecture",
       "themes": {
         "concepts": [
           "sovereignty",
@@ -630,7 +645,7 @@
         "A",
         "C"
       ],
-      "topic": "Data, Databases & AI",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "data-integration",
@@ -655,7 +670,7 @@
         "C",
         "D"
       ],
-      "topic": "Cloud Fundamentals",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "consumption-based-pricing",
@@ -676,7 +691,7 @@
         "Always a full physical CPU core."
       ],
       "answers": "C",
-      "topic": "Compute & Containers",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "virtualization"
@@ -688,20 +703,19 @@
     },
     {
       "id": "25",
-      "question": "A startup is using ChatGPT to analyse comments of ecommerce clients, answer with AI generated apologies to unsatisfied customers and guide them to the claiming process. They won a big deal for a European state controlled company (a railroad company). This new client asks them to not send any of their data to a US company. And they want it for next week, because they will announce it on national radio.\nThe start-up has only one young developer who barely knows AI, and who is not able to redeploy it's software on a new infrastructure in this amount of time.\n\nWhat solution would you advise as an alternative to ChatGPT?",
+      "question": "A startup is using ChatGPT to analyse comments of ecommerce clients, answer with AI generated apologies to unsatisfied customers and guide them to the claiming process. They won a big deal for a European state controlled company (a railroad company). This new client asks them to not send any of their data to a US company. And they want it for next week, because they will announce it on national radio. The start-up has only one young developer who barely knows AI, and who is not able to redeploy its software on a new infrastructure in this amount of time. What solution would you advise as an alternative to ChatGPT?",
       "options": [
-        "Use Scaleway Managed Inference API in a private network, without public connectivity (to enhance security)",
-        "Use Scaleway Generative API",
+        "Use Scaleway Generative APIs - Dedicated Deployment in a private network, without public connectivity (to enhance security)",
+        "Use Scaleway Generative APIs (serverless)",
         "Train a machine learning model on a small number of GPUs using Scaleway On-Demand Clusters",
         "Use a GPU Instance to deploy MistralNemo LLM"
       ],
       "answers": "B",
-      "topic": "Data, Databases & AI",
+      "topic": "Sovereignty architecture",
       "themes": {
         "services": [
           "generative-api",
           "gpu",
-          "managed-inference",
           "on-demand-clusters"
         ],
         "questionTypes": [
@@ -719,7 +733,7 @@
         "Billing Cost Manager."
       ],
       "answers": "C",
-      "topic": "Cost & FinOps",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "project"
@@ -734,7 +748,7 @@
     },
     {
       "id": "27",
-      "question": "An e-commerce company was hosting its software on premise. They had a water leakage incident in the server room, and experienced a 10 day downtime.\n\nDuring these days, the infrastructure team did:\n• Buy and set up new hardware to replace damaged parts\n• Configure the network (switches, firewall, router, load balancer)\n• Restore database backups\n• Re install some virtual machines on the new servers\n\nThey lost a lot of revenue due to customers who could not buy on the ecommerce website. So the company decided to use Scaleway as a second environment in case of a disaster.\n\nThey ask you to give them a disaster recovery architecture with 1 hour RPO, 2 minutes RTO, and the least manual interventions. They don't want to pay for a duplication of all the infrastructure.\n\nWhich one do you choose?",
+      "question": "An e-commerce company was hosting its software on premise. They had a water leakage incident in the server room, and experienced a 10 day downtime. During these days, the infrastructure team bought and set up new hardware to replace damaged parts, configured the network (switches, firewall, router, load balancer), restored database backups and reinstalled some virtual machines on the new servers. They lost a lot of revenue due to customers who could not buy on the ecommerce website. So the company decided to use Scaleway as a second environment in case of a disaster. They ask you to give them a disaster recovery architecture with 1 hour RPO, 2 minutes RTO, and the least manual interventions. They don't want to pay for a duplication of all the infrastructure. Which one do you choose?",
       "options": [
         "Backup and restore",
         "Pilot light",
@@ -742,7 +756,7 @@
         "Multi-site"
       ],
       "answers": "C",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery"
@@ -762,7 +776,7 @@
         "Recovery Point Objective (RPO)."
       ],
       "answers": "B",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "object-storage"
@@ -777,7 +791,7 @@
     },
     {
       "id": "29",
-      "question": "A SaaS startup (~10 developers) runs everything via docker-compose on a single VM for minimal infrastructure management. Traffic is unpredictable and they experience latency during spikes.\nDevelopers are fluent in Docker but have no Kubernetes experience.\nYou must improve resiliency and scaling with minimal workflow disruption.\n\nWhich target approach and plan fits best?",
+      "question": "A SaaS startup (~10 developers) runs everything via docker-compose on a single VM for minimal infrastructure management. Traffic is unpredictable and they experience latency during spikes. Developers are fluent in Docker but have no Kubernetes experience. You must improve resiliency and scaling with minimal workflow disruption. Which target approach and plan fits best?",
       "options": [
         "Migrate each dockerized application to a serverless container platform to gain built-in resiliency and autoscaling. Use an API Gateway to manage routing, request throttling, and secure access.",
         "Rewrite all apps as Serverless functions with API Gateway to remove infrastructure concerns entirely.",
@@ -785,7 +799,7 @@
         "Scale docker-compose across multiple VMs behind a load balancer with custom scripts."
       ],
       "answers": "A",
-      "topic": "Compute & Containers",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "api-gateway",
@@ -802,7 +816,7 @@
     },
     {
       "id": "30",
-      "question": "Scaleway Serverless Containers automatically scale to handle load based on how many simultaneous requests each container instance can process. The \"concurrency\" setting defines this capacity.\n\nWhat does \"concurrency\" specifically refer to in this context?",
+      "question": "Scaleway Serverless Containers automatically scale to handle load based on how many simultaneous requests each container instance can process. The \"concurrency\" setting defines this capacity. What does \"concurrency\" specifically refer to in this context?",
       "options": [
         "The fixed time duration a container remains active when not receiving requests.",
         "The specific, unchanging amount of CPU and memory allocated to each container instance.",
@@ -810,7 +824,7 @@
         "The number of incoming requests a single container instance is allowed to handle at the same time before triggering autoscaling."
       ],
       "answers": "D",
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "serverless-containers"
@@ -837,7 +851,7 @@
         "A",
         "C"
       ],
-      "topic": "Networking",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "load-balancer"
@@ -861,7 +875,7 @@
         "Canary update that upgrades 10% of the nodes, pauses for manual approval, then continues."
       ],
       "answers": "A",
-      "topic": "Compute & Containers",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "kapsule"
@@ -884,7 +898,7 @@
         "The use of open source software."
       ],
       "answers": "B",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "concepts": [
           "encryption",
@@ -908,7 +922,7 @@
         "A",
         "B"
       ],
-      "topic": "Cost & FinOps",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "cost-optimization",
@@ -929,7 +943,7 @@
         "Both use a schema-on-read approach, but Data Lakes are for structured data."
       ],
       "answers": "C",
-      "topic": "Data, Databases & AI",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "data-modeling"
@@ -941,15 +955,15 @@
     },
     {
       "id": "36",
-      "question": "You need a fully-managed service on Scaleway that can store millions of embeddings, deliver fast vector-similarity search with metadata filtering, and fit a Retrieval-Augmented Generation (RAG) workload without having to operate any servers yourself.\n\nWhich Scaleway service should you choose as the primary vector store?",
+      "question": "You need a fully-managed service on Scaleway that can store millions of embeddings, deliver fast vector-similarity search with metadata filtering, and fit a Retrieval-Augmented Generation (RAG) workload without having to operate any servers yourself. Which Scaleway service should you choose as the primary vector store?",
       "options": [
         "Managed Database for PostgreSQL + pgvector extension",
-        "Managed Database for ClickHouse",
+        "Data Warehouse for ClickHouse",
         "Managed Database for MySQL",
         "Object Storage (multi-AZ)"
       ],
       "answers": "A",
-      "topic": "Data, Databases & AI",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "managed-database-postgresql",
@@ -965,7 +979,7 @@
     },
     {
       "id": "37",
-      "question": "For a few hours, the website of a famous private hospital has been under attack. Hackers try to penetrate with several techniques: SQL injection, cross site scripting, PHP code injection ...\nThe website is hosted on a few Debian Instances, exposed in HTTPS behind a load balancer. Load Balancer ACL and Private Network are well configured.\nBecause the website is used to book medical appointments, the IT department of the hospital is looking for an immediate solution to protect against these kinds of attacks.\n\nWhat can you advise?",
+      "question": "For a few hours, the website of a famous private hospital has been under attack. Hackers try to penetrate with several techniques: SQL injection, cross site scripting, PHP code injection ... The website is hosted on a few Debian Instances, exposed in HTTPS behind a load balancer. Load Balancer ACL and Private Network are well configured. Because the website is used to book medical appointments, the IT department of the hospital is looking for an immediate solution to protect against these kinds of attacks. What can you advise?",
       "options": [
         "Install and configure an open source firewall (ex: ufw / iptables) and an open source IPS (ex: Fail2ban) on every Instance.",
         "Set up an anti-virus on each Instance, and configure it to scan the files of each Instance every hour.",
@@ -973,7 +987,7 @@
         "Use Serverless Job to automate changing the public IP of the Instances with IPAM every hour and modifying DNS records accordingly."
       ],
       "answers": "C",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "edge-services",
@@ -998,7 +1012,7 @@
         "A",
         "B"
       ],
-      "topic": "Architecture & Reliability",
+      "topic": "Standard architecture patterns",
       "themes": {
         "concepts": [
           "microservices"
@@ -1021,7 +1035,7 @@
         "C",
         "D"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "secret-manager"
@@ -1044,7 +1058,7 @@
         "Scaleway AMD Instances"
       ],
       "answers": "C",
-      "topic": "Compute & Containers",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "elastic-metal",
@@ -1072,7 +1086,7 @@
         "C",
         "D"
       ],
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "fault-tolerance"
@@ -1095,7 +1109,7 @@
         "A",
         "D"
       ],
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "kapsule",
@@ -1122,7 +1136,7 @@
         "A",
         "D"
       ],
-      "topic": "Data, Databases & AI",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "object-storage"
@@ -1148,7 +1162,7 @@
         "C",
         "D"
       ],
-      "topic": "Operations & Governance",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery",
@@ -1172,7 +1186,7 @@
         "C",
         "D"
       ],
-      "topic": "Compute & Containers",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "elastic-metal"
@@ -1199,7 +1213,7 @@
         "A",
         "C"
       ],
-      "topic": "Cost & FinOps",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "object-storage"
@@ -1222,7 +1236,7 @@
         "Base"
       ],
       "answers": "D",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "autoscaling",
@@ -1247,7 +1261,7 @@
         "C",
         "D"
       ],
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "concepts": [
           "cicd-pipeline",
@@ -1260,7 +1274,7 @@
     },
     {
       "id": "49",
-      "question": "You are managing infrastructure for a SaaS platform deployed on Scaleway.\nRecently, your finance team flagged an unexpected spike in monthly cloud costs, largely due to unforeseen resource usage and lack of visibility into certain services like Object Storage and Compute Instances.\nYou want to implement strategies that help proactively monitor and control these costs across multiple projects.\n\nWhich of the following actions would best help you gain better visibility and control over your Scaleway usage and costs? (Choose two)",
+      "question": "You are managing infrastructure for a SaaS platform deployed on Scaleway. Recently, your finance team flagged an unexpected spike in monthly cloud costs, largely due to unforeseen resource usage and lack of visibility into certain services like Object Storage and Compute Instances. You want to implement strategies that help proactively monitor and control these costs across multiple projects. Which of the following actions would best help you gain better visibility and control over your Scaleway usage and costs? (Choose two)",
       "options": [
         "Use only public IP addresses for all resources to ensure transparency and avoid hidden NAT-related charges.",
         "Set up billing alerts and usage-based budgets on a per-project basis to detect cost anomalies early by using the Scaleway Billing API or external tools.",
@@ -1271,7 +1285,7 @@
         "B",
         "D"
       ],
-      "topic": "Cost & FinOps",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "billing-api"
@@ -1294,7 +1308,7 @@
         "Minimizing infrastructure costs."
       ],
       "answers": "A",
-      "topic": "Architecture & Reliability",
+      "topic": "Scalability & elasticity",
       "themes": {
         "concepts": [
           "scalability"
@@ -1314,7 +1328,7 @@
         "They are managed internally by the customer."
       ],
       "answers": "A",
-      "topic": "Cloud Fundamentals",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "concepts": [
           "consumption-based-pricing"
@@ -1334,7 +1348,7 @@
         "Moving an entire application to a SaaS platform."
       ],
       "answers": "A",
-      "topic": "Cloud Fundamentals",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "concepts": [
           "migration"
@@ -1354,7 +1368,7 @@
         "The third-party software vendors."
       ],
       "answers": "C",
-      "topic": "Security & Compliance",
+      "topic": "Sovereignty architecture",
       "themes": {
         "concepts": [
           "shared-responsibility",
@@ -1367,7 +1381,7 @@
     },
     {
       "id": "54",
-      "question": "Which specific tool is listed as providing the \"Leaf Score\" (an estimate 0–3 leaves) during resource creation to help the architect choose the greenest option?",
+      "question": "Which specific tool is listed as providing the \"Leaf Score\" (an estimate 0-3 leaves) during resource creation to help the architect choose the greenest option?",
       "options": [
         "Billing Cost Manager.",
         "Environmental Footprint API.",
@@ -1375,7 +1389,7 @@
         "Observability (Cockpit)."
       ],
       "answers": "C",
-      "topic": "Cloud Fundamentals",
+      "topic": "Sustainability architecture",
       "themes": {
         "services": [
           "console"
@@ -1390,7 +1404,7 @@
     },
     {
       "id": "55",
-      "question": "Scaleway Object Storage uses redundancy techniques to ensure durability and availability of customer data. Depending on the class of storage and region, it may rely on erasure coding or replication.\n\nWhich of the following statements best describes the redundancy strategies used by Scaleway Object Storage?",
+      "question": "Scaleway Object Storage uses redundancy techniques to ensure durability and availability of customer data. Depending on the class of storage and region, it may rely on erasure coding or replication. Which of the following statements best describes the redundancy strategies used by Scaleway Object Storage?",
       "options": [
         "It relies exclusively on erasure coding with a 6+3 configuration across all buckets and regions.",
         "It combines erasure coding and replication policies, optimizing for durability and performance depending on the storage class.",
@@ -1398,7 +1412,7 @@
         "It always uses triple replication to store all data in three full copies for maximum durability."
       ],
       "answers": "B",
-      "topic": "Data, Databases & AI",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "object-storage"
@@ -1421,7 +1435,7 @@
         "Horizontal Scaling first"
       ],
       "answers": "A",
-      "topic": "Architecture & Reliability",
+      "topic": "Standard architecture patterns",
       "themes": {
         "concepts": [
           "monolithic-architecture",
@@ -1434,7 +1448,7 @@
     },
     {
       "id": "57",
-      "question": "The Solution Architect Certification differentiates between initial setup and ongoing management:\n- Boot scripts are for Day 0.\n- Configuration Management is for Day 1 and beyond.\n\nWhat specific problem does Configuration Management help solve that boot scripts do not address long-term?",
+      "question": "The Solution Architect Certification differentiates between initial setup and ongoing management: boot scripts are for Day 0, and Configuration Management is for Day 1 and beyond. What specific problem does Configuration Management help solve that boot scripts do not address long-term?",
       "options": [
         "The initial deployment of the virtual machine.",
         "The initial operating system image installation.",
@@ -1442,7 +1456,7 @@
         "The \"It Worked on My Machine\" problem by stopping undocumented changes from causing production outages."
       ],
       "answers": "D",
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "configuration-management"
@@ -1465,7 +1479,7 @@
         "Design for failure principle"
       ],
       "answers": "A",
-      "topic": "Architecture & Reliability",
+      "topic": "Standard architecture patterns",
       "themes": {
         "concepts": [
           "monolithic-architecture"
@@ -1477,7 +1491,7 @@
     },
     {
       "id": "59",
-      "question": "You are asked to help a company facing scaling issues. They have been promoted by a famous IT magazine, and now their number of users is increasing. When they want to scale out, they use Docker compose to deploy the parts of their application (the ones they need to scale-out) on a new Instance. The instance creation is done manually, so does the execution of docker-compose.\nThey are also anticipating that the \"fame\" will go down in a few weeks, so they will also need to scale-in in a few weeks.\n\nHow can they improve the situation without spending several weeks on it?",
+      "question": "You are asked to help a company facing scaling issues. They have been promoted by a famous IT magazine, and now their number of users is increasing. When they want to scale out, they use Docker compose to deploy the parts of their application (the ones they need to scale-out) on a new Instance. The instance creation is done manually, so does the execution of docker-compose. They are also anticipating that the \"fame\" will go down in a few weeks, so they will also need to scale-in in a few weeks. How can they improve the situation without spending several weeks on it?",
       "options": [
         "Leverage auto scaling using Cockpit and Serverless functions to detect scaling needs, and trigger instance creation and cloud-init configuration",
         "Migrate from Docker compose to Kubernetes, and use Kapsule",
@@ -1485,7 +1499,7 @@
         "Migrate to a serverless architecture"
       ],
       "answers": "C",
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "cockpit",
@@ -1511,7 +1525,7 @@
         "Schedule one logical backup per day, and restore it in another Availability Zone when the zone is lost."
       ],
       "answers": "B",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "managed-database-postgresql"
@@ -1536,7 +1550,7 @@
         "Pilot light: replicate the database continuously and keep the application tier stopped, to start it from infrastructure-as-code."
       ],
       "answers": "D",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery",
@@ -1559,7 +1573,7 @@
         "Place all database pods in the largest node pool of one zone and put a Load Balancer in front of them to spread the requests."
       ],
       "answers": "A",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "kapsule"
@@ -1584,7 +1598,7 @@
         "Increase the Load Balancer size from LB-S to LB-M to keep the connections longer."
       ],
       "answers": "C",
-      "topic": "Architecture & Reliability",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "managed-database-redis",
@@ -1610,7 +1624,7 @@
         "Two-phase commit across both regions for every catalogue update and read."
       ],
       "answers": "B",
-      "topic": "Architecture & Reliability",
+      "topic": "Standard architecture patterns",
       "themes": {
         "concepts": [
           "data-replication",
@@ -1632,7 +1646,7 @@
         "Add timeouts and a circuit breaker on the calls to the payment service, with a fallback."
       ],
       "answers": "D",
-      "topic": "Architecture & Reliability",
+      "topic": "Standard architecture patterns",
       "themes": {
         "concepts": [
           "microservices",
@@ -1657,7 +1671,7 @@
         "C",
         "D"
       ],
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "concepts": [
           "disaster-recovery",
@@ -1679,7 +1693,7 @@
         "A Block Storage volume attached to an Instance, protected by daily snapshots of the volume."
       ],
       "answers": "A",
-      "topic": "Architecture & Reliability",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "object-storage"
@@ -1704,7 +1718,7 @@
         "An Instance that is kept powered on all the time and runs a crontab entry."
       ],
       "answers": "C",
-      "topic": "Compute & Containers",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "serverless-jobs",
@@ -1730,7 +1744,7 @@
         "Kubernetes Kapsule with a dedicated control plane."
       ],
       "answers": "B",
-      "topic": "Compute & Containers",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "serverless-containers",
@@ -1758,7 +1772,7 @@
         "Disable autoscaling and fix the number of instances to one."
       ],
       "answers": "A",
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "serverless-containers"
@@ -1786,7 +1800,7 @@
         "A",
         "D"
       ],
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "serverless-containers"
@@ -1811,7 +1825,7 @@
         "Increase the node pool to the peak size and keep it fixed all year long."
       ],
       "answers": "A",
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "kapsule"
@@ -1836,7 +1850,7 @@
         "Dedicated vCPU Instances for both environments, to keep them identical."
       ],
       "answers": "C",
-      "topic": "Compute & Containers",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "instances"
@@ -1861,7 +1875,7 @@
         "A placement group in max_availability mode with the Enforced policy for the three Instances."
       ],
       "answers": "D",
-      "topic": "Compute & Containers",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "instances"
@@ -1886,7 +1900,7 @@
         "One Serverless Container namespace in each cloud."
       ],
       "answers": "B",
-      "topic": "Compute & Containers",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "kapsule"
@@ -1910,7 +1924,7 @@
         "Generate the key in the application code and store it next to the encrypted data."
       ],
       "answers": "A",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "key-manager",
@@ -1940,7 +1954,7 @@
         "B",
         "D"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "key-manager",
@@ -1968,7 +1982,7 @@
         "A",
         "C"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "secret-manager",
@@ -1994,7 +2008,7 @@
         "Paranoia level 4 (maximum protection)."
       ],
       "answers": "C",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "edge-services",
@@ -2017,7 +2031,7 @@
         "Create one API key shared by all the pipelines of the company, to simplify its rotation and auditing."
       ],
       "answers": "B",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "iam",
@@ -2045,7 +2059,7 @@
         "B",
         "C"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "instances",
@@ -2073,7 +2087,7 @@
         "Identity federation, configuring SAML SSO with the company's identity provider."
       ],
       "answers": "D",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "iam"
@@ -2094,14 +2108,11 @@
         "Use Audit Trail in the console only, without any export of the events."
       ],
       "answers": "A",
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "audit-trail",
           "object-storage"
-        ],
-        "concepts": [
-          "encryption"
         ],
         "questionTypes": [
           "most-secure"
@@ -2122,7 +2133,7 @@
         "A",
         "D"
       ],
-      "topic": "Security & Compliance",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "kapsule"
@@ -2146,7 +2157,7 @@
         "A lifecycle configuration with a transition rule and an expiration rule."
       ],
       "answers": "D",
-      "topic": "Data, Databases & AI",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "object-storage"
@@ -2174,7 +2185,7 @@
         "C",
         "D"
       ],
-      "topic": "Data, Databases & AI",
+      "topic": "Resilience & Availability",
       "themes": {
         "services": [
           "managed-database-postgresql",
@@ -2200,7 +2211,7 @@
         "Managed Database for Redis in cluster mode, with one node per Availability Zone."
       ],
       "answers": "B",
-      "topic": "Data, Databases & AI",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "serverless-database",
@@ -2232,7 +2243,7 @@
         "B",
         "D"
       ],
-      "topic": "Data, Databases & AI",
+      "topic": "Core Ecosystem Knowledge",
       "themes": {
         "services": [
           "managed-database-postgresql",
@@ -2258,7 +2269,7 @@
         "Copy the content to a bucket of a non-European provider that is geographically further away from Paris."
       ],
       "answers": "A",
-      "topic": "Data, Databases & AI",
+      "topic": "Sovereignty architecture",
       "themes": {
         "services": [
           "object-storage"
@@ -2284,7 +2295,7 @@
         "A bucket policy that denies the delete actions to every application."
       ],
       "answers": "C",
-      "topic": "Data, Databases & AI",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "object-storage"
@@ -2308,7 +2319,7 @@
         "Enable the SSH bastion of the Public Gateway and restrict it with the Allowed IPs feature."
       ],
       "answers": "D",
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "public-gateway",
@@ -2335,11 +2346,12 @@
         "A Static NAT rule configured on a Public Gateway of the VPC."
       ],
       "answers": "B",
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "private-network",
-          "security-groups"
+          "security-groups",
+          "vpc"
         ],
         "concepts": [
           "private-networking"
@@ -2364,7 +2376,7 @@
         "A",
         "B"
       ],
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "interlink"
@@ -2392,7 +2404,7 @@
         "A",
         "C"
       ],
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "site-to-site-vpn"
@@ -2417,7 +2429,7 @@
         "No TLS on the Load Balancer, with an IPsec VPN between the clients and the Load Balancer."
       ],
       "answers": "A",
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "load-balancer"
@@ -2443,7 +2455,7 @@
         "A public Load Balancer that is switched to private once the setup is complete."
       ],
       "answers": "C",
-      "topic": "Networking",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "load-balancer",
@@ -2470,7 +2482,7 @@
         "First available, which directs each request to the first backend server that still has connection slots."
       ],
       "answers": "D",
-      "topic": "Networking",
+      "topic": "Standard architecture patterns",
       "themes": {
         "services": [
           "load-balancer"
@@ -2498,7 +2510,7 @@
         "B",
         "D"
       ],
-      "topic": "Networking",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "edge-services",
@@ -2520,7 +2532,7 @@
         "Create an InterLink between the container and the database."
       ],
       "answers": "B",
-      "topic": "Networking",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "serverless-containers",
@@ -2546,7 +2558,7 @@
         "Clone the first environment and edit the cloned resources by hand in the second region to match it."
       ],
       "answers": "A",
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "terraform"
@@ -2575,13 +2587,13 @@
         "C",
         "D"
       ],
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "cockpit"
         ],
         "concepts": [
-          "automation"
+          "observability"
         ],
         "questionTypes": [
           "configuration"
@@ -2599,7 +2611,7 @@
         "Rolling update that replaces the instances one by one, rolling back by redeploying the old version."
       ],
       "answers": "C",
-      "topic": "Operations & Governance",
+      "topic": "Standard architecture patterns",
       "themes": {
         "concepts": [
           "deployment-strategies",
@@ -2624,7 +2636,7 @@
         "A",
         "B"
       ],
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "concepts": [
           "cicd-pipeline",
@@ -2650,11 +2662,10 @@
         "B",
         "C"
       ],
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
-          "serverless-containers",
-          "cockpit"
+          "serverless-containers"
         ],
         "concepts": [
           "serverless",
@@ -2676,14 +2687,15 @@
         "Billing consumption data of each Project."
       ],
       "answers": "B",
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "cockpit",
           "kapsule"
         ],
         "concepts": [
-          "microservices"
+          "microservices",
+          "observability"
         ],
         "questionTypes": [
           "architecture-decision"
@@ -2701,7 +2713,7 @@
         "Enable auto-upgrade on the cluster with a maintenance window set on Sunday night."
       ],
       "answers": "D",
-      "topic": "Operations & Governance",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "kapsule"
@@ -2725,7 +2737,7 @@
         "A Serverless Container with min-scale set to 0, which scales to zero when idle."
       ],
       "answers": "D",
-      "topic": "Cost & FinOps",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "serverless-containers"
@@ -2751,7 +2763,7 @@
         "A dedicated control plane for development and a mutualized one for production."
       ],
       "answers": "C",
-      "topic": "Cost & FinOps",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "kapsule"
@@ -2779,7 +2791,7 @@
         "A",
         "D"
       ],
-      "topic": "Cost & FinOps",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "kapsule",
@@ -2806,7 +2818,7 @@
         "Move the Instances to a larger type so that fewer public addresses are needed in the fleet."
       ],
       "answers": "B",
-      "topic": "Cost & FinOps",
+      "topic": "Security architecture",
       "themes": {
         "services": [
           "instances",
@@ -2834,7 +2846,7 @@
         "Install PostgreSQL on a small Instance now and migrate to the Managed Database at launch."
       ],
       "answers": "A",
-      "topic": "Cost & FinOps",
+      "topic": "Scalability & elasticity",
       "themes": {
         "services": [
           "managed-database-postgresql"
@@ -2859,7 +2871,7 @@
         "Run the primary and the DR site in fr-par, and rely on encryption alone to guarantee sovereignty."
       ],
       "answers": "C",
-      "topic": "Cloud Fundamentals",
+      "topic": "Sovereignty architecture",
       "themes": {
         "concepts": [
           "sovereignty",
@@ -2884,11 +2896,12 @@
         "A",
         "C"
       ],
-      "topic": "Cloud Fundamentals",
+      "topic": "Sovereignty architecture",
       "themes": {
         "services": [
-          "object-storage",
-          "kapsule"
+          "kapsule",
+          "managed-database-postgresql",
+          "object-storage"
         ],
         "concepts": [
           "sovereignty",
@@ -2913,7 +2926,7 @@
         "B",
         "D"
       ],
-      "topic": "Cloud Fundamentals",
+      "topic": "Sustainability architecture",
       "themes": {
         "services": [
           "console"
@@ -2937,7 +2950,7 @@
         "Among the EU zones allowed, pick the one with the lowest CO2e per kWh in the console estimation."
       ],
       "answers": "D",
-      "topic": "Cloud Fundamentals",
+      "topic": "Sustainability architecture",
       "themes": {
         "services": [
           "console"
@@ -2962,7 +2975,7 @@
         "The Audit Trail export of the Organization, which lists the resources created in each region."
       ],
       "answers": "B",
-      "topic": "Cloud Fundamentals",
+      "topic": "Sustainability architecture",
       "themes": {
         "services": [
           "console",
@@ -2987,7 +3000,7 @@
         "Retire, which switches off the application for good."
       ],
       "answers": "A",
-      "topic": "Cloud Fundamentals",
+      "topic": "Modern Deployment & Cloud native approach",
       "themes": {
         "services": [
           "managed-database-postgresql"

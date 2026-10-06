@@ -104,7 +104,7 @@ The bundle file:
 | `timeLimitMinutes` | number | yes | Real exam duration in minutes. Ask the user if not stated anywhere in the source material. |
 | `passingScore.passingScore` | number | yes | The passing score. A plain percentage (0-100) if the cert has no scaled score, or a scaled value (e.g. `720`) if it does. |
 | `passingScore.scale` | number | no | Max of the scale (e.g. `1000`). Omit entirely for percentage-based certs. **Setting this changes the UI**: the app then shows a *projected* scaled score (a linear projection, e.g. 75% → "750 / 1000") with a disclaimer that it does not reproduce the real exam's scoring. Omitting it means `passingScore` is read as a plain percentage. Only set it when the certification genuinely uses a scaled score — never to "normalize" a number. |
-| `weights` | `Record<string, number>` | no | Maps each topic name (must exactly match the `topic` values you assign to questions) to a percentage; values must sum to 100. Omit the whole field if the cert has no published domain weights — do not invent weights. |
+| `weights` | `Record<string, number>` | no | Maps each topic name (must exactly match the `topic` values you assign to questions) to a percentage; values must sum to 100. Use the weights the certification publishes. If it publishes its domains but no weights, split 100 equally across those domains, rounded to two decimals (13 domains: `7.69` each; the validator tolerates a total within 0.5 of 100). Never invent unequal weights. Omit the whole field only if the certification publishes no domain list at all. The keys are the official domain names, verbatim, including domains for which the bank has no question yet: sampling ignores a weighted topic without questions and renormalizes the others. |
 | `instructions` | string | no | Free-text instructions shown to the user. |
 
 ### `themes` (taxonomy registry)
@@ -378,6 +378,7 @@ Bundle (`src/assets/<CODE> questions.json`):
 - [ ] Every `options` array has at least 2 entries, none with an `A. `/`B. ` prefix.
 - [ ] Every `answers` letter is within that question's `options` range.
 - [ ] Every `topic` is present, and — if `exam.weights` exists — is one of its keys.
+- [ ] `exam.weights` keys are the certification's official domain names, verbatim; when the official guide publishes no percentages, the weights are split equally.
 - [ ] No optional field is present as `null`, `""`, or `[]`; it's omitted entirely instead.
 - [ ] Every value under a question's `themes` exists in the top-level `themes` registry.
 - [ ] No drag-and-drop / matching / simulation question was force-fit — those were flagged and skipped instead.

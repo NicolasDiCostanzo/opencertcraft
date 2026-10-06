@@ -1,12 +1,19 @@
 {
   "version": 2,
   "exam": {
-    "name": "Scaleway Associate Security and Identity",
+    "name": "Scaleway Associate: Security and Identity",
     "code": "SCW-SEC",
     "totalQuestions": 50,
     "timeLimitMinutes": 60,
     "passingScore": {
       "passingScore": 70
+    },
+    "weights": {
+      "Manage Your Organization & Projects": 20.0,
+      "Manage access to encrypted data with Object Storage": 20.0,
+      "Manage access to your Organization's resources": 20.0,
+      "Monitor your resources and immediately detect unauthorized activity": 20.0,
+      "Share and encrypt sensitive data": 20.0
     }
   },
   "themes": {
@@ -119,7 +126,7 @@
         "Traces"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -163,7 +170,7 @@
         "Quotas are set at the Project level."
       ],
       "answers": "B",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -185,7 +192,7 @@
         "Access key"
       ],
       "answers": "A",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -206,7 +213,7 @@
         "No"
       ],
       "answers": "A",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -228,7 +235,7 @@
         "Both"
       ],
       "answers": "C",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -274,7 +281,7 @@
         "B",
         "C"
       ],
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -295,7 +302,7 @@
         "False"
       ],
       "answers": "B",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -316,7 +323,7 @@
         "An application"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -337,7 +344,7 @@
         "No, not in any circumstance."
       ],
       "answers": "B",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -380,7 +387,7 @@
         "Yes, IAM costs 10 euros per month."
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -423,7 +430,7 @@
         "False"
       ],
       "answers": "B",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -444,7 +451,7 @@
         "Data plane"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "instances"
@@ -465,7 +472,7 @@
         "False"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -486,7 +493,7 @@
         "No"
       ],
       "answers": "B",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "project"
@@ -529,7 +536,7 @@
         "Choose an Availability Zone for the resource."
       ],
       "answers": "B",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "console",
@@ -551,7 +558,7 @@
         "Active"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -593,7 +600,7 @@
         "No"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -615,7 +622,7 @@
         "8"
       ],
       "answers": "A",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "project"
@@ -636,7 +643,7 @@
         "The user no longer has the permissions they formerly had as a member of the group."
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -658,7 +665,7 @@
         "Audit Trail"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -680,7 +687,7 @@
         "IAM works with all Scaleway products."
       ],
       "answers": "C",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -700,7 +707,7 @@
         "Yes",
         "No"
       ],
-      "answers": "A",
+      "answers": "B",
       "topic": "Manage access to encrypted data with Object Storage",
       "themes": {
         "services": [
@@ -712,7 +719,8 @@
         "questionTypes": [
           "yes-no"
         ]
-      }
+      },
+      "explanation": "Object Storage resources are private by default and accessible only to principals with IAM permissions. Bucket policies are an optional extra layer, and IAM alone is enough when Project-level access control is sufficient."
     },
     {
       "id": "32",
@@ -722,7 +730,7 @@
         "No"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -743,7 +751,7 @@
         "At the Organization level"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -764,7 +772,7 @@
         "False"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit",
@@ -788,7 +796,7 @@
         "Owner"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -809,7 +817,7 @@
         "No"
       ],
       "answers": "A",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "project"
@@ -854,7 +862,7 @@
         "Activate Billing Alerts in the Billing section"
       ],
       "answers": "D",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "billing"
@@ -876,7 +884,7 @@
         "100"
       ],
       "answers": "A",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -897,7 +905,7 @@
         "False"
       ],
       "answers": "A",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam",
@@ -921,7 +929,7 @@
         "It is the username of the Organization Owner"
       ],
       "answers": "B",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -945,7 +953,7 @@
         "Create a new Organization and move all Projects into it"
       ],
       "answers": "C",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -972,7 +980,7 @@
         "A",
         "C"
       ],
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "project"
@@ -999,7 +1007,7 @@
         "B",
         "D"
       ],
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization",
@@ -1029,7 +1037,7 @@
         "B",
         "C"
       ],
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "project",
@@ -1056,7 +1064,7 @@
         "Per Project"
       ],
       "answers": "A",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization"
@@ -1080,7 +1088,7 @@
         "In the Data sources tab of Cockpit"
       ],
       "answers": "C",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization",
@@ -1105,7 +1113,7 @@
         "scw account project create"
       ],
       "answers": "D",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "project"
@@ -1129,7 +1137,7 @@
         "An IAM application with a full-access API key"
       ],
       "answers": "C",
-      "topic": "Manage Your Organization and Projects",
+      "topic": "Manage Your Organization & Projects",
       "themes": {
         "services": [
           "organization",
@@ -1154,7 +1162,7 @@
         "A Project and a secret key"
       ],
       "answers": "C",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1176,7 +1184,7 @@
         "No"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1200,7 +1208,7 @@
         "Everything except billing and IAM"
       ],
       "answers": "A",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1224,7 +1232,7 @@
         "On both Mondays and Tuesdays"
       ],
       "answers": "D",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1251,7 +1259,7 @@
         "A",
         "C"
       ],
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1275,7 +1283,7 @@
         "API keys can only be generated with the CLI"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1299,7 +1307,7 @@
         "They are not affected, the limit applies only to newly created API keys"
       ],
       "answers": "D",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1326,7 +1334,7 @@
         "B",
         "D"
       ],
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1351,7 +1359,7 @@
         "The Member keeps access with read-only permissions"
       ],
       "answers": "C",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1373,7 +1381,7 @@
         "No"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1398,7 +1406,7 @@
         "A policy granting AllProductsFullAccess to the cluster creator"
       ],
       "answers": "A",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam",
@@ -1423,7 +1431,7 @@
         "Add both to an IAM group and attach the policy to the group"
       ],
       "answers": "D",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1447,7 +1455,7 @@
         "scw secret api-key create application-id=<application-id>"
       ],
       "answers": "B",
-      "topic": "Manage access to resources",
+      "topic": "Manage access to your Organization's resources",
       "themes": {
         "services": [
           "iam"
@@ -1748,7 +1756,7 @@
         "Pending and Completed"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "audit-trail"
@@ -1775,7 +1783,7 @@
         "B",
         "C"
       ],
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "audit-trail",
@@ -1801,7 +1809,7 @@
         "To a Key Manager key"
       ],
       "answers": "B",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "audit-trail",
@@ -1827,7 +1835,7 @@
         "How much did this Project cost last month?"
       ],
       "answers": "A",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "audit-trail"
@@ -1849,7 +1857,7 @@
         "No"
       ],
       "answers": "B",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -1876,7 +1884,7 @@
         "C",
         "D"
       ],
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -1900,7 +1908,7 @@
         "Older data is hidden but returns if you increase the retention again"
       ],
       "answers": "C",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -1924,7 +1932,7 @@
         "Billing alert rules"
       ],
       "answers": "B",
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"
@@ -1951,7 +1959,7 @@
         "A",
         "C"
       ],
-      "topic": "Monitor resources and detect unauthorized activity",
+      "topic": "Monitor your resources and immediately detect unauthorized activity",
       "themes": {
         "services": [
           "cockpit"

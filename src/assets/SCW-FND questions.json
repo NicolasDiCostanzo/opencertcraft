@@ -7,6 +7,21 @@
     "timeLimitMinutes": 60,
     "passingScore": {
       "passingScore": 70
+    },
+    "weights": {
+      "Introduction to Scaleway": 7.69,
+      "Security & Identity": 7.69,
+      "Bare Metal": 7.69,
+      "Compute": 7.69,
+      "Serverless": 7.69,
+      "Storage": 7.69,
+      "Network": 7.69,
+      "Databases": 7.69,
+      "Containers": 7.69,
+      "Monitoring": 7.69,
+      "Artificial Intelligence": 7.69,
+      "Data and Analytics": 7.69,
+      "Integrations Services": 7.69
     }
   },
   "themes": {
@@ -571,7 +586,7 @@
         "Dedibox",
         "Online"
       ],
-      "answers": "B",
+      "answers": "D",
       "topic": "Introduction to Scaleway",
       "themes": {
         "services": [
@@ -611,7 +626,7 @@
       "id": "24",
       "question": "Managed Database best for sessions and API calls?",
       "options": [
-        "Managed In-Memory Database for Redis",
+        "Managed Database for Redis",
         "Managed Relational Database for PostgreSQL and MySQL"
       ],
       "answers": "A",
@@ -930,7 +945,7 @@
         "True",
         "False"
       ],
-      "answers": "A",
+      "answers": "B",
       "topic": "Introduction to Scaleway",
       "themes": {
         "services": [
@@ -942,7 +957,8 @@
         "questionTypes": [
           "true-false"
         ]
-      }
+      },
+      "explanation": "Paris, Amsterdam and Warsaw each have three Availability Zones, but the Milan region has a single one."
     },
     {
       "id": "39",
@@ -1064,7 +1080,7 @@
         "Access to over 420 preconfigured and click-to-deploy apps"
       ],
       "answers": "D",
-      "topic": "Managed Services",
+      "topic": "Introduction to Scaleway",
       "themes": {
         "services": [
           "web-hosting"
@@ -1356,7 +1372,7 @@
         "A third-party partner appointed by Scaleway"
       ],
       "answers": "C",
-      "topic": "Security & Identity",
+      "topic": "Storage",
       "themes": {
         "services": [
           "object-storage"
@@ -1383,7 +1399,7 @@
         "B",
         "D"
       ],
-      "topic": "Security & Identity",
+      "topic": "Introduction to Scaleway",
       "themes": {
         "services": [
           "regions-az"
@@ -1485,7 +1501,7 @@
         "B",
         "D"
       ],
-      "topic": "Bare Metal",
+      "topic": "Network",
       "themes": {
         "services": [
           "interlink",
@@ -2191,7 +2207,7 @@
         "Queues"
       ],
       "answers": "A",
-      "topic": "Containers",
+      "topic": "Monitoring",
       "themes": {
         "services": [
           "kapsule",
@@ -2298,7 +2314,7 @@
         "Audit Trail"
       ],
       "answers": "D",
-      "topic": "Monitoring",
+      "topic": "Security & Identity",
       "themes": {
         "services": [
           "audit-trail"
