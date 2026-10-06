@@ -12,6 +12,9 @@ const CERT_FAMILY: Record<string, string> = {
   'CCAR-P': 'claude',
   'CCDV-F': 'claude',
   'GCP-ACE': 'gcp',
+  'SCW-SA': 'scaleway',
+  'SCW-FND': 'scaleway',
+  'SCW-SEC': 'scaleway',
 }
 
 function loadBundle(path: string, mod: { default: unknown }): CertBundle {
