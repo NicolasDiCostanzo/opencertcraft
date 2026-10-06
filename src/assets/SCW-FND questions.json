@@ -200,8 +200,8 @@
       "id": "6",
       "question": "Which support plans does Scaleway offer? Choose one answer.",
       "options": [
-        "Basic, Advanced, Business, Entreprise",
-        "Basic and Entreprise",
+        "Basic, Advanced, Business, Enterprise",
+        "Basic and Enterprise",
         "Basic only"
       ],
       "answers": "A",
