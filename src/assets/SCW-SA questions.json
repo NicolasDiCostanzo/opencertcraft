@@ -106,7 +106,7 @@
       "id": "1",
       "question": "A start up is collecting data about electricity consumption of industrial machines. They are looking for a database to store time series. They want to perform SQL queries on the database because their only engineer only knows this language. What could be the solutions?",
       "options": [
-        "Managed Database for PostGre",
+        "Managed Database for PostgreSQL",
         "Serverless Database",
         "Managed Database for MongoDB",
         "Managed Database for Redis"
