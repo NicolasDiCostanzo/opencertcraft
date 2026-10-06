@@ -94,7 +94,7 @@
       "question": "Should I use KMS keys directly to encrypt large sets of data?",
       "options": [
         "No, it is recommended to use Data Encryption Key (DEK) and to encrypt them using KMS",
-        "Yes, definetly"
+        "Yes, definitely"
       ],
       "answers": "A",
       "topic": "Share and encrypt sensitive data",
