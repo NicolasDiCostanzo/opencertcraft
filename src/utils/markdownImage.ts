@@ -24,7 +24,7 @@ export type InlineSegment = TextSegment | ImageSegment | CodeBlockSegment | Inli
 
 const IMAGE_PATTERN = /!\[([^\]]*)\]\(([^)]+)\)/
 const INLINE_CODE_PATTERN = /`([^`\n]+)`/
-const CODE_FENCE_PATTERN = /```([^\n`]*)\n?([\s\S]*?)```/g
+const CODE_FENCE_PATTERN = /^[ \t]*(`{3,})([^\n`]*)\n([\s\S]*?)^[ \t]*\1`*[ \t]*(?=\r?\n|$)/gm
 const INLINE_TOKEN_PATTERN = new RegExp(`${IMAGE_PATTERN.source}|${INLINE_CODE_PATTERN.source}`, 'g')
 const SAFE_IMAGE_URL_PATTERN = /^(https?:|data:image\/)/i
 const HAS_SCHEME_PATTERN = /^[a-z][a-z0-9+.-]*:/i
@@ -64,7 +64,7 @@ export function parseInlineSegments(text: string): InlineSegment[] {
   let lastIndex = 0
 
   for (const fence of text.matchAll(CODE_FENCE_PATTERN)) {
-    const [full, lang, body] = fence
+    const [full, , lang, body] = fence
     const index = fence.index
 
     if (index > lastIndex) {
